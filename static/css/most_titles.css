@@ -1,0 +1,23 @@
+#most_titles > svg{
+    background-color: rgb(53, 53, 53);
+    color:rgb(170, 170, 170);
+    border-radius: 15px;
+}
+
+#most_titles * text{
+    fill:rgb(170, 170, 170);
+}
+
+#most_titles .y-axis * line,
+#most_titles .y-axis * text{
+    stroke-width:transparent;
+    fill: transparent;
+}
+
+#most_titles .x-axis * text{
+    font-size: 13px;
+    font-weight: bold;
+}
+#most_titles rect{
+    stroke: gray;
+}

@@ -1,0 +1,69 @@
+body{
+    background-color: rgb(70, 70, 70);
+}
+
+h1{
+    font-family: sans-serif;
+    color: lightgray
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888; 
+  border-radius: 50px; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f1f1f1;
+  border-radius: 50px; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #fff; 
+}
+
+select{
+  background-color: rgb(53, 53, 53);
+  color: lightgray;
+  border:none;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px;
+  min-width: 200px;
+}
+
+select:focus, select:focus-visible{
+  outline:none;
+}
+
+.track-info{
+  color:white;
+  font-size: 18px;
+  font-family: sans-serif;
+  padding-left: 5px;
+  word-spacing: normal;
+  line-height: 1.5;
+}
+
+#tooltip {
+  height: 70px;
+  width: 150px;
+  text-align: center;
+}
+
+.tooltip {
+  position: absolute;
+  opacity: 0.8;
+  background-color: rgb(238, 231, 231);
+  border-radius: 5px;
+  padding: 5px;
+}
+

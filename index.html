@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Vizualizacija podataka (VIZPOD) 2023/2024</title>
+        <link rel="stylesheet" href="static/styles/style.css">
+        <link rel="shortcut icon" href="static/favicon.ico">
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+
+        <link rel="stylesheet" href="static/css/most_titles.css" />
+    </head>
+
+    <body>
+        <div class="tooltip" id="tooltip", style="opacity: 0;">
+            <p><span id="statistic"></span></p>
+        </div>
+        <div style="text-align: center;padding-right: 150px;">
+            <input type="hidden" id="selected-year" onchange="updateYear()" />
+            <input type="hidden" id="race_id" value="842" />
+            <select onchange="changeYear()" id="year-dropdown">
+                <option value="2006">2006/2007</option>
+                <option value="2007">2007/2008</option>
+                <option value="2008">2008/2009</option>
+                <option value="2009">2009/2010</option>
+                <option value="2010">2010/2011</option>
+                <option value="2011">2011/2012</option>
+                <option value="2012">2012/2013</option>
+                <option value="2013">2013/2014</option>
+                <option value="2014">2014/2015</option>
+                <option value="2015">2015/2016</option>
+                <option value="2016">2016/2017</option>
+                <option value="2017">2017/2018</option>
+            </select>
+
+        </div>
+        <div>
+            <div>
+
+            </div>
+            <div id="constructor-standings-tooltip" style="position: absolute;visibility:hidden;"></div>
+            <div style="display: flex;justify-content: center;">
+                <div>
+                    <h1>Most titles from season<br> 2006/2007 to 2017/2018</h1>
+                    <div style="margin-right:50px" id="most_titles"></div>
+                </div>
+            </div>
+        </div>
+        <script src="static/js/plot_most_titles.js"></script>
+        <script>
+            //let imgSrcs = null;
+            //let trackStats = null;
+            //let renderingRacingPositions = false;
+            //let renderingDriverStandings = false;
+            //let renderingConstructorStandings = false;
+            let renderingMostTitles = false;
+            //let renderingHeadToHead = false;
+            //let renderingRidgeline = false;
+
+            document.addEventListener("DOMContentLoaded", async function () {
+                //await getTracks();
+
+                let year = document.getElementById("selected-year").value
+                if (!year || year == "") {
+                    year = "2022";
+                    document.getElementById("selected-year").value = year;
+                }
+                //await updateDriverDropdown(year);
+                //await updateCircuitDropdown(false);
+                //updateCircuit();
+                //let circuitId = document.getElementById("circuit-selected-id").value
+
+                //await redrawConstructorStandings(year);
+                //await redrawDriverStandings(year);
+                //await redrawHeadToHead(year);
+                await drawMostTitles();
+                //await redrawRacingPositions(year, circuitId);
+                //await plotHeatmap("data/data_for_heatmap.json")
+                //await redrawRidgeline("data/graph_3_times.json");
+            });
+
+            async function drawMostTitles() {
+                if (!renderingMostTitles) {
+                    renderingMostTitles = true;
+                    document.getElementById("most_titles").innerHTML = null;
+                    await plotMostTitles(`data/league_winners.csv`);
+                    renderingMostTitles = false;
+                }
+            }
+
+            async function updateYear() {
+                let year = document.getElementById("selected-year").value;
+                let circuitId = document.getElementById("circuit-selected-id").value
+                document.getElementById("year-dropdown").value = year;
+                //await updateCircuitDropdown(false);
+
+                //await redrawRacingPositions(year, circuitId);
+                //await redrawDriverStandings(year);
+                //await redrawConstructorStandings(year);
+            }
+
+            async function changeYear() {
+                let year = document.getElementById("year-dropdown").value
+                let circuitId = document.getElementById("circuit-selected-id").value
+
+                document.getElementById("selected-year").value = year;
+                //await updateCircuitDropdown(false);
+                //await updateCircuit(true);
+                //circuitId = document.getElementById("circuit-selected-id").value
+                //await redrawConstructorStandings(year);
+                //await redrawHeadToHead(year);
+                //await redrawMostRacesWon(circuitId); # nama bude to fiksno
+                //await redrawRacingPositions(year, circuitId);
+                //await redrawDriverStandings(year);
+                //await redrawRidgeline();
+            }
+        </script>
+    </body>
+
+</html>
