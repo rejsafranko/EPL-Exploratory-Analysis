@@ -32,7 +32,7 @@ async function plotClubPoints(fileName) {
         var svg = d3.select("#points")
             .append("svg")
             .attr("width", 910 + margin.left + margin.right)
-            .attr("height", 600 + margin.top + margin.bottom)
+            .attr("height", 630 + margin.top + margin.bottom)
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");

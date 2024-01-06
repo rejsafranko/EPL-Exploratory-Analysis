@@ -7,7 +7,6 @@ function preprocessBarChartDataTitles(data) {
             "Season": data[i].season
         })
     }
-    //console.log(result)
 
     return result;
 }
@@ -17,7 +16,6 @@ async function plotMostTitles(fileName) {
         let test_data = await d3.csv(fileName);
 
         res = preprocessBarChartDataTitles(test_data)
-        console.log(res)
         max_races_won = Math.max(...res.map(o => o.Value))
 
 
@@ -54,7 +52,6 @@ async function plotMostTitles(fileName) {
             .call(function (t) {
                 t.each(function (d) { // for each one
                     var self = d3.select(this);
-                    console.log(self.text());
                     var s = self.text().split(' '); // get the text and split it
                     self.text(''); // clear it out
                     self.append("tspan") // insert two tspans
@@ -80,7 +77,6 @@ async function plotMostTitles(fileName) {
         
         const tooltip = d3.select("#tooltip").style("opacity", 0);
         var mouseover = function (event, res) {
-            console.log(res)
             tooltip.transition().duration(200).style("opacity", 10);
             tooltip.html('Winning seasons: ' + res.Season)
             .style("left", (event.pageX) + "px")

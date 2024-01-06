@@ -64,6 +64,7 @@
         <script src="static/js/plot_points.js"></script>
         <script>
             let imgSrcs = null;
+            let ids = null;
             //let trackStats = null;
             //let renderingRacingPositions = false;
             let renderingClubPoints = false;
@@ -82,6 +83,7 @@
 
                 await getClubs(year);
                 await updateClubDropdown();
+                await renderFirst();
                 //await updateDriverDropdown(year);
                 //await updateCircuitDropdown(false);
                 //updateCircuit();
@@ -97,13 +99,25 @@
             });
 
             async function getClubs(year) {
-                console.log(year)
+                //console.log(year)
                 data = await d3.csv(`data/points_season_${year}.csv`);
+                data_1 = await d3.csv(`data/imgs.csv`)
                 result = []
+                images = {}
+                id = []
                 for (var i = 0; i < data.length; i++) {
-                    result.push(data[i].team)
+                    team = data[i].team
+                    result.push(team)
+                    for (var j = 0; j < data_1.length; j++) {
+                        if (team == data_1[j].team) {
+                            images[data_1[j].id] = data_1[j].link
+                            id.push(data_1[j].id)
+                        }
+                    }
                 }
+                imgSrcs = images
                 clubs = result
+                ids = id
             }
 
             async function updateClubDropdown() {
@@ -112,7 +126,7 @@
                 for (var i = 0; i < clubs.length; i++) {
                     let option = document.createElement("option");
                     option.innerHTML = clubs[i];
-                    option.value = clubs[i];
+                    option.value = ids[i];
                     dropdown.append(option);
                 }
             }
@@ -135,10 +149,10 @@
                 }
             }
 
-            async function updateClub(preventRender) {
+            async function updateClub() {
                 let year = document.getElementById("selected-year").value;
-                let circuitId = document.getElementById("circuit-selected-id").value
-                console.log(circuitId)
+                let circuitId = document.getElementById("club-selected-id").value
+                //console.log(circuitId)
 
                 if (imgSrcs) {
                     if (circuitId != null && circuitId != "" && imgSrcs[circuitId] != "NaN") {
@@ -149,17 +163,26 @@
 
                 }
             }
+            
+            async function renderFirst() {
+                id_firs = ids[0]
+                document.getElementById("track-image").src = imgSrcs[id_firs]
+            }
 
             async function changeClub() {
                 let circuitId = document.getElementById("club-dropdown").value
-                document.getElementById("circuit-selected-id").value = circuitId;
+                document.getElementById("club-selected-id").value = circuitId;
                 await updateClub();
             }
 
             async function updateYear() {
                 let year = document.getElementById("selected-year").value;
-                let circuitId = document.getElementById("circuit-selected-id").value
+                let circuitId = document.getElementById("club-selected-id").value
                 document.getElementById("year-dropdown").value = year;
+
+                await getClubs(year);
+                await updateClubDropdown();
+                await renderFirst();
                 //await updateCircuitDropdown(false);
                 await drawMostTitles();
                 //await redrawRacingPositions(year, circuitId);
@@ -177,6 +200,9 @@
                 //circuitId = document.getElementById("circuit-selected-id").value
                 //await redrawConstructorStandings(year);
                 //await redrawHeadToHead(year);
+                await getClubs(year);
+                await updateClubDropdown();
+                await renderFirst();
                 await drawMostTitles();
                 //await redrawRacingPositions(year, circuitId);
                 await redrawClubPoints(year);
