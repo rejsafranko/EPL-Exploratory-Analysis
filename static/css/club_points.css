@@ -1,0 +1,15 @@
+#points > svg{
+    background-color: rgb(53, 53, 53);
+    color:rgb(170, 170, 170);
+    border-radius: 15px;
+}
+
+#points text{
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#points .drivers-axis > .domain,
+#points .drivers-axis line{
+    stroke-width: 0;
+}

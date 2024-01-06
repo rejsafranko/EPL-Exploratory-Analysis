@@ -1,4 +1,4 @@
-function preprocessBarChartDataRacesWon(data) {
+function preprocessBarChartDataTitles(data) {
     result = []
     for (var i = 0; i < data.length; i++) {
         result.push({
@@ -7,7 +7,7 @@ function preprocessBarChartDataRacesWon(data) {
             "Season": data[i].season
         })
     }
-    console.log(result)
+    //console.log(result)
 
     return result;
 }
@@ -15,11 +15,9 @@ function preprocessBarChartDataRacesWon(data) {
 async function plotMostTitles(fileName) {
     try {
         let test_data = await d3.csv(fileName);
-        console.log(test_data)
-        console.log(test_data.length)
 
-        res = preprocessBarChartDataRacesWon(test_data)
-
+        res = preprocessBarChartDataTitles(test_data)
+        console.log(res)
         max_races_won = Math.max(...res.map(o => o.Value))
 
 
@@ -52,6 +50,7 @@ async function plotMostTitles(fileName) {
             .call(d3.axisBottom(x))
             .attr("transform", `translate(0,${height})`)
             .selectAll('.x-axis .tick text') // select all the x tick texts
+            .style("fill", "white")
             .call(function (t) {
                 t.each(function (d) { // for each one
                     var self = d3.select(this);
@@ -134,6 +133,7 @@ async function plotMostTitles(fileName) {
             .attr("y", function (d, i) {
                 return y(d.Value) - 5;
             })
+            .style("fill", "white")
             .attr("font-family", "sans-serif")
             .attr("font-size", "16px")
             .attr("font-weight", "bold")
