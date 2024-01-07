@@ -110,8 +110,8 @@
             });
 
             async function getClubs(year) {
-                data = await d3.csv(`data/points_season_${year}.csv`);
-                data_1 = await d3.csv(`data/imgs.csv`)
+                data = await d3.csv(`data/task3/points_season_${year}.csv`);
+                data_1 = await d3.csv(`data/task4/imgs.csv`)
                 result = []
                 images = {}
                 id = []
@@ -145,7 +145,7 @@
                 if (!renderingMostTitles) {
                     renderingMostTitles = true;
                     document.getElementById("most_titles").innerHTML = null;
-                    await plotMostTitles(`data/league_winners.csv`);
+                    await plotMostTitles(`data/task1/league_winners.csv`);
                     renderingMostTitles = false;
                 }
             }
@@ -154,20 +154,20 @@
                 if (!renderingClubPoints) {
                     renderingClubPoints = true;
                     document.getElementById("points").innerHTML = null;
-                    await plotClubPoints(`data/points_season_${year}.csv`);
+                    await plotClubPoints(`data/task3/points_season_${year}.csv`);
                     renderingClubPoints = false;
                 }
             }
 
             async function redrawClubStat(year, selectedOptionInnerHTML) {
                 document.getElementById("club-statistics").innerHTML = null;
-                await plotClubStatistic(`data/general_stats_${year}.csv`, selectedOptionInnerHTML);
+                await plotClubStatistic(`data/task6/general_stats_${year}.csv`, selectedOptionInnerHTML);
                 renderingClubPoints = false;
             }
 
             async function redrawClubAttStat(year, selectedOptionInnerHTML) {
                 document.getElementById("club-attacking-statistics").innerHTML = null;
-                await plotClubAttStatistic(`data/attacking_stats_${year}.csv`, selectedOptionInnerHTML);
+                await plotClubAttStatistic(`data/task7/attacking_stats_${year}.csv`, selectedOptionInnerHTML);
                 renderClubAttStat = false;
             }
 
@@ -200,7 +200,7 @@
                 if (!renderClubStat) {
                     renderClubStat = true;
                     document.getElementById("club-statistics").innerHTML = null;
-                    await plotClubStatistic(`data/general_stats_${year}.csv`, clubs[0]);
+                    await plotClubStatistic(`data/task6/general_stats_${year}.csv`, clubs[0]);
                     renderingClubPoints = false;
                 }
             }
@@ -208,7 +208,7 @@
                 if (!renderClubAttStat) {
                     renderClubAttStat = true;
                     document.getElementById("club-attacking-statistics").innerHTML = null;
-                    await plotClubAttStatistic(`data/attacking_stats_${year}.csv`, clubs[0]);
+                    await plotClubAttStatistic(`data/task7/attacking_stats_${year}.csv`, clubs[0]);
                     renderClubAttStat = false;
                 }
             }
