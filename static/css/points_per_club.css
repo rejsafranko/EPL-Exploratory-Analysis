@@ -1,0 +1,23 @@
+#points-per-club > svg{
+    background-color: rgb(53, 53, 53);
+    color:rgb(170, 170, 170);
+    border-radius: 15px;
+}
+
+#points-per-club text{
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#points-per-club-tooltip{
+    background-color: white;
+    padding: 5px;
+    white-space: pre-wrap;
+    font-family: sans-serif;
+    border-radius: 5px;
+}
+
+#points-per-club .constructor-axis > .domain,
+#points-per-club .constructor-axis line{
+    stroke-width: 0;
+}
