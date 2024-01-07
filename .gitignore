@@ -15,3 +15,9 @@ data/task4/*
 
 data/task5/*
 !data/task5/.gitkeep
+
+data/task6/*
+!data/task6/.gitkeep
+
+data/task7/*
+!data/task7/.gitkeep
