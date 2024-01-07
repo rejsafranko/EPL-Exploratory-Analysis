@@ -39,7 +39,7 @@
 
             </div>
             <div id="constructor-standings-tooltip" style="position: absolute;visibility:hidden;"></div>
-            <div style="display: flex;justify-content: center;">
+            <div style="display: flex; justify-content: center;">
                 <div>
                     <div style="margin-top:20px">
                         <input type="hidden" id="club-selected-id" onchange="updateClub()" />
@@ -53,23 +53,34 @@
                     <div style="margin-right:50px" id="most_titles"></div>
                 </div>
                 <div style="height: 700px;">
-                    <h1>Points</h1>
+                    <h1 id="header-points">Points</h1>
                     <div id="points" style="height: 700px;">
     
                     </div>
                 </div>
             </div>
+            <div style="display:flex; justify-content: center;">
+                <div style="margin-top: 50px;">
+                    <h1 id="header-club-statistic" style="margin-left:10px;text-align: center;">Club Statistic</h1>
+                    <div id="club-statistics" style="text-align:center"></div>
+                </div>
+                <div style="margin-top: 50px;">
+                    <h1 id="header-club-statistic-att" style="margin-left:55px;text-align:center">Attacking Club Statistic</h1>
+                    <div id="club-attacking-statistics" style="text-align:center"></div>
+                </div>
+            </div>
         </div>
         <script src="static/js/plot_most_titles.js"></script>
         <script src="static/js/plot_points.js"></script>
+        <script src="static/js/plot_general_statistic.js"></script>
+        <script src="static/js/plot_attacking_statistic.js"></script>
         <script>
             let imgSrcs = null;
             let ids = null;
-            //let trackStats = null;
-            //let renderingRacingPositions = false;
             let renderingClubPoints = false;
-            //let renderingConstructorStandings = false;
             let renderingMostTitles = false;
+            let renderClubStat = false;
+            let renderClubAttStat = false;
             //let renderingHeadToHead = false;
             //let renderingRidgeline = false;
             let clubs = null
@@ -99,7 +110,6 @@
             });
 
             async function getClubs(year) {
-                //console.log(year)
                 data = await d3.csv(`data/points_season_${year}.csv`);
                 data_1 = await d3.csv(`data/imgs.csv`)
                 result = []
@@ -149,11 +159,33 @@
                 }
             }
 
+            async function redrawClubStat(year, selectedOptionInnerHTML) {
+                document.getElementById("club-statistics").innerHTML = null;
+                await plotClubStatistic(`data/general_stats_${year}.csv`, selectedOptionInnerHTML);
+                renderingClubPoints = false;
+            }
+
+            async function redrawClubAttStat(year, selectedOptionInnerHTML) {
+                document.getElementById("club-attacking-statistics").innerHTML = null;
+                await plotClubAttStatistic(`data/attacking_stats_${year}.csv`, selectedOptionInnerHTML);
+                renderClubAttStat = false;
+            }
+
             async function updateClub() {
                 let year = document.getElementById("selected-year").value;
                 let circuitId = document.getElementById("club-selected-id").value
                 //console.log(circuitId)
+                // Access the selected option's innerHTML
+                let dropdown = document.getElementById("club-dropdown");
+                let selectedIndex = dropdown.selectedIndex;
+                let selectedOptionInnerHTML = dropdown.options[selectedIndex].innerHTML;
+                redrawClubStat(year, selectedOptionInnerHTML)
+                redrawClubAttStat(year, selectedOptionInnerHTML)
 
+                document.getElementById("header-club-statistic").textContent = selectedOptionInnerHTML + ": Club Statistic";
+                document.getElementById("header-club-statistic-att").textContent = selectedOptionInnerHTML + ": Attacking Club Statistic";
+                document.getElementById("header-points").textContent = selectedOptionInnerHTML + ": Points";
+        
                 if (imgSrcs) {
                     if (circuitId != null && circuitId != "" && imgSrcs[circuitId] != "NaN") {
                         document.getElementById("track-image").src = imgSrcs[circuitId]
@@ -163,10 +195,35 @@
 
                 }
             }
+
+            async function renderClubStatF(year) {
+                if (!renderClubStat) {
+                    renderClubStat = true;
+                    document.getElementById("club-statistics").innerHTML = null;
+                    await plotClubStatistic(`data/general_stats_${year}.csv`, clubs[0]);
+                    renderingClubPoints = false;
+                }
+            }
+            async function renderClubAttStatF(year) {
+                if (!renderClubAttStat) {
+                    renderClubAttStat = true;
+                    document.getElementById("club-attacking-statistics").innerHTML = null;
+                    await plotClubAttStatistic(`data/attacking_stats_${year}.csv`, clubs[0]);
+                    renderClubAttStat = false;
+                }
+            }
             
             async function renderFirst() {
                 id_firs = ids[0]
+                let year = document.getElementById("selected-year").value;
                 document.getElementById("track-image").src = imgSrcs[id_firs]
+
+                document.getElementById("header-club-statistic").textContent = clubs[0] + ": Club Statistic";
+                document.getElementById("header-club-statistic-att").textContent = clubs[0] + ": Attacking Club Statistic";
+                document.getElementById("header-points").textContent = clubs[0] + ": Points";
+
+                renderClubStatF(year)
+                renderClubAttStatF(year)
             }
 
             async function changeClub() {
