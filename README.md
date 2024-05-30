@@ -1,2 +1,2 @@
 # EPL-Exploratory-Analysis
-[STILL IN DEVELOPMENT] ❗❗❗
+[LACKS DOCUMENTATION] ❗❗❗
